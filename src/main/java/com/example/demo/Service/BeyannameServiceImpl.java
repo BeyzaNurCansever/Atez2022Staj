@@ -1,19 +1,16 @@
 package com.example.demo.Service;
 
-import com.example.demo.Entity.Adres;
-import com.example.demo.Entity.Arac;
-import com.example.demo.Entity.Beyanname;
-import com.example.demo.Entity.Firma;
-import com.example.demo.Repository.AracJPARepository;
+import com.example.demo.Entity.*;
 import com.example.demo.Repository.BeyannameRepository;
 import com.example.demo.Repository.FirmaRepository;
-import com.example.demo.Request.AracRequest;
 import com.example.demo.Request.BeyannameRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import java.util.List;
+import java.util.Set;
+
 @Service
 
 
@@ -31,6 +28,12 @@ public class BeyannameServiceImpl implements BeyannameService{
 
     @Autowired
     AracServiceImpl aracService;
+
+    @Autowired
+    UrunServiceImpl urunService;
+
+    @Autowired
+    GumrukServiceImpl gumrukService;
 
     @Override
     public List<Beyanname> listBeyanname() {
@@ -51,7 +54,6 @@ public class BeyannameServiceImpl implements BeyannameService{
         Beyanname beyanname=new Beyanname();
         Firma firma=new Firma();
         Firma firma2=new Firma();
-        Firma firma3=new Firma();
         Optional<Firma> alici_firma=firmaService.findById(beyannameRequest.alıcı_firma);
         firma=alici_firma.get();
         Adres adres=firma.getAdres();
@@ -62,15 +64,24 @@ public class BeyannameServiceImpl implements BeyannameService{
         Adres adres2=firma2.getAdres();
         Optional<Adres> gonderici_firma_adres=adresService.findById(adres2.getId());
 
+        Optional<Urun> urun=urunService.findById(beyannameRequest.urun_id);
+
+        Optional<Gumruk> cikis_gumruk=gumrukService.findById(beyannameRequest.cikis_gumruk);
+
+        Optional<Gumruk> varis_gumruk=gumrukService.findById(beyannameRequest.varis_gümrük);
+
+
+
         Optional<Arac> tasiyici_arac=aracService.findById(beyannameRequest.tasiyici_arac);
+
         beyanname.setTescil_id(beyannameRequest.tescil_id);
         beyanname.setTarih(beyannameRequest.tarih);
-        beyanname.setCikis_gumruk(beyannameRequest.cikis_gumruk);
-        beyanname.setVaris_gümrük(beyannameRequest.varis_gümrük);
-        beyanname.setUrun(beyannameRequest.urun);
+        beyanname.setCikis_gumruk(cikis_gumruk.get());
+        beyanname.setVaris_gumruk(varis_gumruk.get());
         beyanname.setArac(tasiyici_arac.get());
         beyanname.setGonderici_firma(firma2);
         beyanname.setAlici_firma(firma);
+        beyanname.setUrun(urun.get());
         alici_firma.get().setAdres2(alici_firma_adres.get());
         gonderici_firma.get().setAdres(gonderici_firma_adres.get());
 

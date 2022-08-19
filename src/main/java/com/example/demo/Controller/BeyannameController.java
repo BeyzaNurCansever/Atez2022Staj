@@ -1,8 +1,6 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Entity.Arac;
 import com.example.demo.Entity.Beyanname;
-import com.example.demo.Request.AracRequest;
 import com.example.demo.Request.BeyannameRequest;
 import com.example.demo.Service.AracServiceImpl;
 import com.example.demo.Service.BeyannameServiceImpl;
