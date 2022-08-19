@@ -1,26 +1,32 @@
 package com.example.demo.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name="Arac")
 public class Arac {
 
     @OneToMany
     @JoinColumn(name = "id")
+    @ToString.Exclude
+    @JsonManagedReference
     private Set<Beyanname> beyanname;
 
 
     @ManyToOne
     @JoinColumn(name = "firma_id")
+    @JsonBackReference
     private Firma firma;
 
 
@@ -32,6 +38,16 @@ public class Arac {
     private String arac_tip;
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Arac arac = (Arac) o;
+        return id != null && Objects.equals(id, arac.id);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

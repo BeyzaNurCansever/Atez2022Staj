@@ -6,10 +6,8 @@ import com.example.demo.Repository.FirmaRepository;
 import com.example.demo.Request.BeyannameRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 
@@ -66,6 +64,12 @@ public class BeyannameServiceImpl implements BeyannameService{
 
         Optional<Urun> urun=urunService.findById(beyannameRequest.urun_id);
 
+
+
+
+
+
+
         Optional<Gumruk> cikis_gumruk=gumrukService.findById(beyannameRequest.cikis_gumruk);
 
         Optional<Gumruk> varis_gumruk=gumrukService.findById(beyannameRequest.varis_gümrük);
@@ -82,6 +86,7 @@ public class BeyannameServiceImpl implements BeyannameService{
         beyanname.setGonderici_firma(firma2);
         beyanname.setAlici_firma(firma);
         beyanname.setUrun(urun.get());
+
         alici_firma.get().setAdres2(alici_firma_adres.get());
         gonderici_firma.get().setAdres(gonderici_firma_adres.get());
 
